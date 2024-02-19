@@ -1,4 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 /**
  * Slice: contains data of certain types of state.
@@ -9,9 +10,17 @@ const todoSlice = createSlice({
   name: 'todo',
   initialState: ['Fazer café', 'Estudar Redux', 'Aprender Zustand'],
 
-  reducers: {}
+  /**
+   * Reducers: actions that our interface is able to perform and change our state (triggerable by the user).
+   */
+  reducers: {
+    add: (state, action) => {
+      state.push(action.payload.newTodo)
+    }
+  }
 })
 
+// Store: global state. Can be split into several slices.
 export const store = configureStore({
   /**
    * Reducer: data that's going to be shared across all components in our application.
@@ -22,3 +31,11 @@ export const store = configureStore({
     todo: todoSlice.reducer
   }
 })
+
+export const { add } = todoSlice.actions
+
+// TypeScript's ReturnType gives you the type from the value returned by the function.
+export type RootState = ReturnType<typeof store.getState>
+
+// Apply typing to useSelector.
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector

@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux'
+import { useAppSelector } from '../store'
 
 export function TodoList() {
-  // From my "store" set at the ReduxProvider, I want to return certain types of data.
-  const todos = useSelector(store => {
+  // From my "store" set at the ReduxProvider, I want to return a specific type of data.
+  const todos = useAppSelector(store => {
     return store.todo
   })
 
