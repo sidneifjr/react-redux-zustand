@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit'
 import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
 /**
@@ -6,19 +6,11 @@ import { useSelector, TypedUseSelectorHook } from 'react-redux'
  * 
  * You could say it's categorizing kinds of data.
  */
-const todoSlice = createSlice({
-  name: 'todo',
-  initialState: ['Fazer café', 'Estudar Redux', 'Aprender Zustand'],
 
-  /**
-   * Reducers: actions that our interface is able to perform and change our state (triggerable by the user).
-   */
-  reducers: {
-    add: (state, action) => {
-      state.push(action.payload.newTodo)
-    }
-  }
-})
+/**
+ * Reducers: actions that our interface is able to perform and change our state (triggerable by the user).
+ */
+
 
 // Store: global state. Can be split into several slices.
 export const store = configureStore({
@@ -27,12 +19,8 @@ export const store = configureStore({
    * 
    * It's possible to have several: a reducer for my shopping cart, another for authentication, etc, with the intent of organizing each type of state in its own category.
    *  */ 
-  reducer: {
-    todo: todoSlice.reducer
-  }
+  reducer: {}
 })
-
-export const { add } = todoSlice.actions
 
 // TypeScript's ReturnType gives you the type from the value returned by the function.
 export type RootState = ReturnType<typeof store.getState>
