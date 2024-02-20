@@ -1,3 +1,4 @@
+import { player } from './slices/player';
 import { configureStore } from '@reduxjs/toolkit'
 import { useSelector, TypedUseSelectorHook } from 'react-redux'
 
@@ -19,7 +20,9 @@ export const store = configureStore({
    * 
    * It's possible to have several: a reducer for my shopping cart, another for authentication, etc, with the intent of organizing each type of state in its own category.
    *  */ 
-  reducer: {}
+  reducer: {
+    player
+  }
 })
 
 // TypeScript's ReturnType gives you the type from the value returned by the function.
