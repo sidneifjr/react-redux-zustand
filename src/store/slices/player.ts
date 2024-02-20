@@ -28,10 +28,23 @@ const playerSlice = createSlice({
           ],
         },
       ],
-    }
+    },
+
+    currentModuleIndex: 0,
+    currentLessonIndex: 0
   },
 
-  reducers: {}
+  reducers: {
+    /**
+     * "payload[0]" refers to the first property in the payload, that is a value related to "module".
+     */
+    play: (state, action) => {
+      state.currentModuleIndex = action.payload[0]
+      state.currentLessonIndex = action.payload[1]
+    }
+  }
 })
 
 export const player = playerSlice.reducer
+
+export const { play } = playerSlice.actions
