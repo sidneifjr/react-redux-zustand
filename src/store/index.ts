@@ -21,7 +21,7 @@ export const store = configureStore({
    * It's possible to have several: a reducer for my shopping cart, another for authentication, etc, with the intent of organizing each type of state in its own category.
    *  */ 
   reducer: {
-    player: player
+    player
   }
 })
 
