@@ -1,6 +1,22 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Dev
+
+`pnpm dev`
+
+## Prod
+
+`pnpm build`
+
+## Server (needed for dev)
+
+`pnpm run server`
+
+Currently, it exposes the '/courses' endpoint.
+
+## Tests
+
+`pnpm test` or `pnpm test:watch`
 
 Currently, two official plugins are available:
 
