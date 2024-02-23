@@ -1,5 +1,6 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { useAppSelector } from "..";
+import { api } from "../../lib/axios";
 
 interface Course {
   id: number
@@ -26,15 +27,30 @@ const myState: PlayerState = {
   currentLessonIndex: 0
 }
 
+/**
+ * 1) 'Thunk' is intended for usage with async requests (HTTP requests, promises, etc.).
+ * 
+ * It is how we define an async action.
+ * 
+ * Obs.: We cannot have async functions inside our 'reducers' object. Each action MUST BE a pure function and without side effects.
+ * 
+ * 2) 'thunks' are not a native feature of redux; internally in the Redux Toolkit, it is handled by the redux-thunk library.
+ * 
+ * Therefore, by default, Redux does not understand 'loadCourse' is an action. 'useAppDispatch' is a solution.
+ */
+export const loadCourse = createAsyncThunk(
+  'player/load', // action name
+  async() => {
+    const response = await api.get('/courses/1')
+
+    return response.data
+  }
+)
+
 export const playerSlice = createSlice({
   name: 'player',
   initialState: myState,
   reducers: {
-    start: (state, action:PayloadAction<Course>) => {
-      state.course = action.payload
-    },
-
-
     /**
      * "payload[0]" refers to the first property in the payload, that is a value related to "module".
      */
@@ -62,12 +78,21 @@ export const playerSlice = createSlice({
         }
       }
     },
+  },
+
+  extraReducers(builder) {
+    /*
+      "I want to do something when 'loadCourse' is fulfilled".
+    */
+    builder.addCase(loadCourse.fulfilled, (state, action) => {
+      state.course = action.payload
+    })
   }
 })
 
 export const player = playerSlice.reducer
 
-export const { play, next, start } = playerSlice.actions
+export const { play, next } = playerSlice.actions
 
 export const useCurrentLesson = () => {
   return useAppSelector(state => {
