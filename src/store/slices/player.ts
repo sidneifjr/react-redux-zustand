@@ -18,13 +18,15 @@ interface Course {
 export type PlayerState = {
   course: Course | null
   currentModuleIndex: number,
-  currentLessonIndex: number
+  currentLessonIndex: number,
+  isLoading: boolean,
 }
 
 const myState: PlayerState = {
   course: null,
   currentModuleIndex: 0,
-  currentLessonIndex: 0
+  currentLessonIndex: 0,
+  isLoading: true,
 }
 
 /**
@@ -81,11 +83,16 @@ export const playerSlice = createSlice({
   },
 
   extraReducers(builder) {
+    builder.addCase(loadCourse.pending, (state) => {
+      state.isLoading = true
+    })
+
     /*
       "I want to do something when 'loadCourse' is fulfilled".
     */
     builder.addCase(loadCourse.fulfilled, (state, action) => {
       state.course = action.payload
+      state.isLoading = false
     })
   }
 })
